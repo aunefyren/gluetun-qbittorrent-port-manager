@@ -4,6 +4,7 @@
         "fsnotify",
         "Gluetun",
         "Infof",
+        "PORTFILE",
         "qbittorrent"
     ]
 }
