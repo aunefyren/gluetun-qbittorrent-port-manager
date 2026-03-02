@@ -253,7 +253,7 @@ func main() {
 	ticker := time.NewTicker(time.Duration(modules.ConfigFile.Interval) * time.Minute)
 	defer ticker.Stop()
 	for range ticker.C {
-		modules.Log.Info("periodic check triggered")
+		modules.Log.Debug("periodic check triggered")
 		syncPort()
 	}
 }
