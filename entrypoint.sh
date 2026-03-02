@@ -4,34 +4,37 @@
 CMD="/app/gluetun-qbittorrent-port-manager"
 
 # Add the flags
-if [ -n "$tz" ]; then
-  CMD="$CMD --tz $tz"
+if [ -n "$TZ" ]; then
+  CMD="$CMD --tz $TZ"
 fi
-if [ -n "$environment" ]; then
-  CMD="$CMD --environment $environment"
+if [ -n "$ENVIRONMENT" ]; then
+  CMD="$CMD --environment $ENVIRONMENT"
 fi
-if [ -n "$interval" ]; then
-  CMD="$CMD --interval $interval"
+if [ -n "$INTERVAL" ]; then
+  CMD="$CMD --interval $INTERVAL"
 fi
-if [ -n "$portfile" ]; then
-  CMD="$CMD --portfile $portfile"
+if [ -n "$PORTFILE" ]; then
+  CMD="$CMD --portfile $PORTFILE"
+fi
+if [ -n "$LOGLEVEL" ]; then
+  CMD="$CMD --loglevel $LOGLEVEL"
 fi
 
 # add qBit flags
-if [ -n "$port" ]; then
-  CMD="$CMD --port $port"
+if [ -n "$PORT" ]; then
+  CMD="$CMD --port $PORTt"
 fi
-if [ -n "$ip" ]; then
-  CMD="$CMD --ip $ip"
+if [ -n "$IP" ]; then
+  CMD="$CMD --ip $IP"
 fi
-if [ -n "$https" ]; then
-  CMD="$CMD --https $https"
+if [ -n "$HTTPS" ]; then
+  CMD="$CMD --https $HTTPS"
 fi
-if [ -n "$username" ]; then
-  CMD="$CMD --username $username"
+if [ -n "$USERNAME" ]; then
+  CMD="$CMD --username $USERNAME"
 fi
-if [ -n "$password" ]; then
-  CMD="$CMD --password $password"
+if [ -n "$PASSWORD" ]; then
+  CMD="$CMD --password $PASSWORD"
 fi
 
 # execute the final command

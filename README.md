@@ -16,18 +16,18 @@ The file is read by the program, the qBitTorrent port is checked through their A
 The file is always monitored and the port is updated when the file changes. There is also a configurable interval which the program will query qBitTorrent and verify the port is correct. There is also a verification, so the port is only changed if it is incorrect.
 
 ## Configuration?
-| Config file entry | Startup flag | Environment variable |Type | Description |
+| Config file entry | Startup flag | Environment variable | Type | Description |
 |-----|-----|-----|-------|--------------|
-| port | port | port | int | Port qBit listens on (default: `8080`) |
-| ip | ip | ip | string | IP qBit listens on (default: `localhost`) |
-| https | https | https | bool | qBit protocol (`true` or `false`) |
-| username | username | username | string | Username for qBit login (default: `admin`) |
-| password | password | password | string | Password for qBit login |
-| timezone | tz | tz | string | Timezone of the app (default: `Europe/Paris`) |
-| environment | environment | environment | string | Defines program behavior (default: `production`) |
-| log_level | loglevel | loglevel | string | Amount of logs (default: `info`) |
-| interval | interval | interval | int | Minutes between qBit port check (default: `5`) |
-| port_file | portfile | portfile | string | File where Gluetun writes port (default: `/tmp/gluetun/forwarded_port`) |
+| port | port | PORT | int | Port qBit listens on (default: `8080`) |
+| ip | ip | IP | string | IP qBit listens on (default: `localhost`) |
+| https | HTTPS | https | bool | qBit protocol (`true` or `false`) |
+| username | username | USERNAME | string | Username for qBit login (default: `admin`) |
+| password | password | PASSWORD | string | Password for qBit login |
+| timezone | tz | TZ | string | Timezone of the app (default: `Europe/Paris`) |
+| environment | environment | ENVIRONMENT | string | Defines program behavior (default: `production`) |
+| log_level | loglevel | LOGLEVEL | string | Amount of logs (default: `info`) |
+| interval | interval | INTERVAL | int | Minutes between qBit port check (default: `5`) |
+| port_file | portfile | PORTFILE | string | File where Gluetun writes port (default: `/tmp/gluetun/forwarded_port`) |
 
 ## Docker example?
 ```yaml

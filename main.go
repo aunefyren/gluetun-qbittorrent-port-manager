@@ -276,6 +276,7 @@ func parseFlags(configFile modules.ConfigStruct) modules.ConfigStruct {
 	var environment = flag.String("environment", configFile.Environment, "The environment the manager is running in.")
 	var interval = flag.Int("interval", configFile.Interval, "The interval (minutes) the manager performs a check.")
 	var portFile = flag.String("portfile", configFile.PortFile, "The port file the manager monitors.")
+	var loglevel = flag.String("loglevel", configFile.LogLevel, "The log amount the manager prints.")
 
 	// parse the flags from input
 	flag.Parse()
@@ -313,6 +314,9 @@ func parseFlags(configFile modules.ConfigStruct) modules.ConfigStruct {
 	}
 	if portFile != nil {
 		configFile.PortFile = *portFile
+	}
+	if loglevel != nil {
+		configFile.LogLevel = *loglevel
 	}
 
 	return configFile
