@@ -20,7 +20,7 @@ The file is always monitored and the port is updated when the file changes. Ther
 |-----|-----|-----|-------|--------------|
 | port | port | PORT | int | Port qBit listens on (default: `8080`) |
 | ip | ip | IP | string | IP qBit listens on (default: `localhost`) |
-| https | HTTPS | https | bool | qBit protocol (`true` or `false`) |
+| https | https | HTTPS | bool | qBit protocol (`true` or `false`) |
 | username | username | USERNAME | string | Username for qBit login (default: `admin`) |
 | password | password | PASSWORD | string | Password for qBit login |
 | timezone | tz | TZ | string | Timezone of the app (default: `Europe/Paris`) |
