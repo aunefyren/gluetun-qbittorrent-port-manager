@@ -16,6 +16,14 @@ The file is read by the program, the qBitTorrent port is checked through their A
 The file is always monitored and the port is updated when the file changes. There is also a configurable interval which the program will query qBitTorrent and verify the port is correct. There is also a verification, so the port is only changed if it is incorrect.
 
 ## Configuration?
+The `config.json` with the main configuration is automatically created and placed within the `config` directory. It can be manually edited. You can also use start-up flags when launching the executable. Like this: 
+
+```powershell
+.\gluetun-qbittorrent-port-manager.exe -loglevel=debug
+```
+
+Or you can use environment variables, typically done when using Docker Compose. See the table below for all configuration options available:
+
 | Config file entry | Startup flag | Environment variable | Type | Description |
 |-----|-----|-----|-------|--------------|
 | port | port | PORT | int | Port qBit listens on (default: `8080`) |
@@ -29,7 +37,7 @@ The file is always monitored and the port is updated when the file changes. Ther
 | interval | interval | INTERVAL | int | Minutes between qBit port check (default: `5`) |
 | port_file | portfile | PORTFILE | string | File where Gluetun writes port (default: `/tmp/gluetun/forwarded_port`) |
 
-## Docker example?
+## Docker Compose example?
 ```yaml
 services:
   gluetun-qbittorrent-port-manager:
@@ -46,5 +54,6 @@ services:
       USERNAME: admin
       PASSWORD: secretpassword
     volumes:
-      - /tmp/gluetun/forwarded_port:/tmp/gluetun/forwarded_port:rw # make sure this leads to your port file
+      - ./config/:/app/config/:rw # only needed if you want a permanent config.json file
+      - /tmp/gluetun/forwarded_port:/tmp/gluetun/forwarded_port:rw # make sure this leads to your port file from Gluetun
 ```

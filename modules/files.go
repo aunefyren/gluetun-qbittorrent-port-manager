@@ -127,5 +127,18 @@ func SaveConfig() error {
 	encoder.SetIndent("", "\t")
 	encoder.SetEscapeHTML(false) // disable &/< > escaping
 
+	if Log != nil {
+		newLogLevel, err := logrus.ParseLevel(ConfigFile.LogLevel)
+		if err != nil {
+			Log.Errorf("failed to parse loglevel '" + ConfigFile.LogLevel + "'")
+			return err
+		}
+
+		if Log.Level != newLogLevel {
+			Log.Level = newLogLevel
+			Log.Infof("loglevel changed to '%s'", newLogLevel.String())
+		}
+	}
+
 	return encoder.Encode(ConfigFile)
 }
