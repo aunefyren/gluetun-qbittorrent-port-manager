@@ -22,7 +22,7 @@ fi
 
 # add qBit flags
 if [ -n "$PORT" ]; then
-  CMD="$CMD --port $PORTt"
+  CMD="$CMD --port $PORT"
 fi
 if [ -n "$IP" ]; then
   CMD="$CMD --ip $IP"
