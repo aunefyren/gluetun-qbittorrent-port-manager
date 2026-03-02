@@ -10,7 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var versionParameter = "{{RELEASE_TAG}}"
+var versionParameter = "v1.0.0"
 var configDirectoryPath, _ = filepath.Abs("./config/")
 var configFilePath = filepath.Join(configDirectoryPath, "config.json")
 var ConfigFile = ConfigStruct{}
