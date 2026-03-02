@@ -12,7 +12,7 @@ Gluetun can get a port which is port-forwarded, and has the ability to write thi
 ## How?
 The file is read by the program, the qBitTorrent port is checked through their API. If they are not in sync, qBitTorrent is updated through their API.
 
-## When
+## When?
 The file is always monitored and the port is updated when the file changes. There is also a configurable interval which the program will query qBitTorrent and verify the port is correct. There is also a verification, so the port is only changed if it is incorrect.
 
 ## Configuration?
