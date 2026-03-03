@@ -56,5 +56,5 @@ services:
       PASSWORD: secretpassword
     volumes:
       - ./config/:/app/config/:rw # only needed if you want a permanent config.json file
-      - /tmp/gluetun/forwarded_port:/tmp/gluetun/forwarded_port:rw # make sure this leads to your port file from Gluetun
+      - /tmp/gluetun/forwarded_port:/tmp/gluetun/forwarded_port:ro # make sure this leads to your port file from Gluetun
 ```
