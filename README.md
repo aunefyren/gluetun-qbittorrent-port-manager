@@ -1,28 +1,28 @@
-# gluetun-qbittorrent-port-manager
+# Gluetun qBitTorrent Port Manager
 
 > [!NOTE]  
 > This is a spiritual successor to [SnoringDragon/gluetun-qbittorrent-port-manager](https://github.com/SnoringDragon/gluetun-qbittorrent-port-manager).
 
 ## What?
-A simple Go application that syncs the Gluetun port-forwarded port to qBittorrent.
+A simple Go application that syncs your [Gluetun port](https://github.com/qdm12/gluetun-wiki/blob/main/setup/options/port-forwarding.md) to the [qBittorrent](https://github.com/qbittorrent/qBittorrent) listening port. It can run as a standalone executable, or in a Docker container.
 
 ## Why?
-Gluetun can get a port which is port-forwarded, and has the ability to write this port to a file. We need qBitTorrent to use this port as a `listen port` when doing peer-to-peer connection. So this simple program synchronizes those values.
+Gluetun can receive a port from a VPN provider which is port-forwarded. Many want to utilize this port elsewhere, and therefore Gluetun has the ability to write this port to a file. It is often desired for qBitTorrent to use this port as a `listen port` when doing peer-to-peer connections. This simple program synchronizes those values, ensuring qBitTorrent stays in sync with Gluetun.
 
 ## How?
-The file is read by the program, the qBitTorrent port is checked through their API. If they are not in sync, qBitTorrent is updated through their API.
+The Gluetun file is read by the program and the qBitTorrent port is checked through their API. If they are not in sync, qBitTorrent is updated through their API. If Gluetun does not have an open port, nothing is done to qBitTorrent.
 
 ## When?
-The file is always monitored and the port is updated when the file changes. There is also a configurable interval which the program will query qBitTorrent and verify the port is correct. There is also a verification, so the port is only changed if it is incorrect.
+The file is always monitored and the port is updated when the file changes. There is also a configurable interval after which the program will query qBitTorrent and verify the port is correct. There is also a verification before updating, ensuring the port is only changed if it is incorrect.
 
 ## Configuration?
-The `config.json` with the main configuration is automatically created and placed within the `config` directory. It can be manually edited. You can also use start-up flags when launching the executable. Like this: 
+The `config.json` with the main configuration is automatically created and placed within the `config` directory upon startup. It can be manually edited in a text editor. You can also use start-up flags when launching the executable, which will be written to the file. Like this: 
 
 ```powershell
 .\gluetun-qbittorrent-port-manager.exe -loglevel=debug
 ```
 
-Or you can use environment variables, typically done when using Docker Compose. See the table below for all configuration options available:
+Or you can use environment variables on the system, which is typically done when running a Docker container. See the table below for all configuration options available:
 
 | Config file entry | Startup flag | Environment variable | Type | Description |
 |-----|-----|-----|-------|--------------|
@@ -49,7 +49,8 @@ services:
       PGID: 1000 # this ensures the container is not running as root
       TZ: Europe/Paris
       PORTFILE: /tmp/gluetun/forwarded_port # should be similar to mounted volume
-      IP: localhost
+      IP: localhost # qBit connection details
+      HTTPS: False
       PORT: 8080
       USERNAME: admin
       PASSWORD: secretpassword
