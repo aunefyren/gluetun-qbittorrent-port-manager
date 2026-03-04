@@ -28,13 +28,14 @@ Or you can use environment variables on the system, which is typically done when
 |-----|-----|-----|-------|--------------|
 | port | port | PORT | int | Port qBit listens on (default: `8080`) |
 | ip | ip | IP | string | IP qBit listens on (default: `localhost`) |
-| https | https | HTTPS | bool | qBit protocol (`true` or `false`) |
+| https | https | HTTPS | bool | qBit protocol (default: `false`) |
 | username | username | USERNAME | string | Username for qBit login (default: `admin`) |
 | password | password | PASSWORD | string | Password for qBit login |
 | timezone | tz | TZ | string | Timezone of the app (default: `Europe/Paris`) |
 | environment | environment | ENVIRONMENT | string | Defines program behavior (default: `production`) |
 | log_level | loglevel | LOGLEVEL | string | Amount of logs (default: `info`) |
 | interval | interval | INTERVAL | int | Minutes between qBit port check (default: `5`) |
+| wait_for_qbittorrent | waitforqbit | WAITFORQBIT | bool | Wait for QBitTorrent to start before manager starts working (default: `true`) |
 | port_file | portfile | PORTFILE | string | File where Gluetun writes port (default: `/tmp/gluetun/forwarded_port`) |
 
 ## Docker Compose example?
