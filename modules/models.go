@@ -1,13 +1,14 @@
 package modules
 
 type ConfigStruct struct {
-	Timezone    string            `json:"timezone"`
-	Version     string            `json:"version"`
-	Environment string            `json:"environment"`
-	LogLevel    string            `json:"log_level"`
-	Interval    int               `json:"interval"`
-	PortFile    string            `json:"port_file"`
-	QBitTorrent QBitTorrentConfig `json:"qbittorrent"`
+	Timezone           string            `json:"timezone"`
+	Version            string            `json:"version"`
+	Environment        string            `json:"environment"`
+	LogLevel           string            `json:"log_level"`
+	Interval           int               `json:"interval"`
+	WaitForQBitTorrent bool              `json:"wait_for_qbittorrent"`
+	PortFile           string            `json:"port_file"`
+	QBitTorrent        QBitTorrentConfig `json:"qbittorrent"`
 }
 
 type QBitTorrentConfig struct {

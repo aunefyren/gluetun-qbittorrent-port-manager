@@ -108,7 +108,7 @@ func setPort(client *http.Client, port int) error {
 }
 
 // syncPort performs full read-compare-update cycle
-func syncPort() {
+func syncPort(client *http.Client) {
 	filePort, err := readPortFromFile()
 	if err != nil {
 		modules.Log.Warnf("%v", err)
@@ -120,10 +120,12 @@ func syncPort() {
 		return
 	}
 
-	client, err := login()
-	if err != nil {
-		modules.Log.Errorf("login failed: %v", err)
-		return
+	if client == nil {
+		client, err = login()
+		if err != nil {
+			modules.Log.Errorf("login failed: %v", err)
+			return
+		}
 	}
 
 	currentPort, err := getCurrentPort(client)
@@ -166,7 +168,7 @@ func watchFile(path string) {
 			}
 			if event.Has(fsnotify.Write) || event.Has(fsnotify.Create) {
 				modules.Log.Infof("file change detected: %s", event.Name)
-				syncPort()
+				syncPort(nil)
 			}
 		case err, ok := <-watcher.Errors:
 			if !ok {
@@ -243,8 +245,22 @@ func main() {
 		time.Sleep(10 * time.Second)
 	}
 
+	// wait for qBitTorrent to connect before proceeding
+	var client *http.Client = nil
+	if modules.ConfigFile.WaitForQBitTorrent {
+		modules.Log.Info("trying to log into qBitTorrent to check it is available")
+		for {
+			client, err = login()
+			if err == nil {
+				break
+			}
+			modules.Log.Warnf("1BitTorrent login failed, retrying in 10s. error: %s", err.Error())
+			time.Sleep(10 * time.Second)
+		}
+	}
+
 	// initial sync on startup
-	syncPort()
+	syncPort(client)
 
 	// file watcher, reacts immediately to Gluetun writing a new port
 	go watchFile(modules.ConfigFile.PortFile)
@@ -254,19 +270,23 @@ func main() {
 	defer ticker.Stop()
 	for range ticker.C {
 		modules.Log.Debug("periodic check triggered")
-		syncPort()
+		syncPort(nil)
 	}
 }
 
 func parseFlags(configFile modules.ConfigStruct) modules.ConfigStruct {
 	// default value for flag
-	defaultBoolString := "true"
+	defaultBoolStringHTTPS := "true"
 	if !configFile.QBitTorrent.HTTPS {
-		defaultBoolString = "false"
+		defaultBoolStringHTTPS = "false"
+	}
+	defaultBoolStringWait := "true"
+	if !configFile.WaitForQBitTorrent {
+		defaultBoolStringWait = "false"
 	}
 
 	// define flag variables with the configuration file as default values
-	var https = flag.String("https", defaultBoolString, "The protocol qBitTorrent is listening on.")
+	var https = flag.String("https", defaultBoolStringHTTPS, "The protocol qBitTorrent is listening on.")
 	var port = flag.Int("port", configFile.QBitTorrent.Port, "The port qBitTorrent is listening on.")
 	var ip = flag.String("ip", configFile.QBitTorrent.IP, "The IP qBitTorrent is listening on.")
 	var username = flag.String("username", configFile.QBitTorrent.Username, "The username used for logging into qBitTorrent.")
@@ -274,7 +294,8 @@ func parseFlags(configFile modules.ConfigStruct) modules.ConfigStruct {
 
 	var timezone = flag.String("tz", configFile.Timezone, "The timezone the manager is running in.")
 	var environment = flag.String("environment", configFile.Environment, "The environment the manager is running in.")
-	var interval = flag.Int("interval", configFile.Interval, "The interval (minutes) the manager performs a check.")
+	var interval = flag.Int("interval", configFile.Interval, "The interval (minutes) between when the manager performs a check.")
+	var waitOnqBit = flag.String("waitforqbit ", defaultBoolStringWait, "Wait for qBitTorrent to start before the manager starts working.")
 	var portFile = flag.String("portfile", configFile.PortFile, "The port file the manager monitors.")
 	var loglevel = flag.String("loglevel", configFile.LogLevel, "The log amount the manager prints.")
 
@@ -311,6 +332,11 @@ func parseFlags(configFile modules.ConfigStruct) modules.ConfigStruct {
 	}
 	if interval != nil {
 		configFile.Interval = *interval
+	}
+	if waitOnqBit != nil && strings.EqualFold(*waitOnqBit, trueString) {
+		configFile.WaitForQBitTorrent = true
+	} else if waitOnqBit != nil && strings.EqualFold(*waitOnqBit, falseString) {
+		configFile.WaitForQBitTorrent = false
 	}
 	if portFile != nil {
 		configFile.PortFile = *portFile

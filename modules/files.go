@@ -97,6 +97,7 @@ func LoadConfig() (err error) {
 func CreateConfigFile() error {
 	ConfigFile = ConfigStruct{}
 	ConfigFile.QBitTorrent = QBitTorrentConfig{}
+	ConfigFile.WaitForQBitTorrent = true
 	level := logrus.InfoLevel
 	ConfigFile.LogLevel = level.String()
 

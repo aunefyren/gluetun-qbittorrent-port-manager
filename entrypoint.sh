@@ -13,6 +13,9 @@ fi
 if [ -n "$INTERVAL" ]; then
   CMD="$CMD --interval $INTERVAL"
 fi
+if [ -n "$WAITFORQBIT" ]; then
+  CMD="$CMD --waitforqbit $WAITFORQBIT"
+fi
 if [ -n "$PORTFILE" ]; then
   CMD="$CMD --portfile $PORTFILE"
 fi
