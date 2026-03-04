@@ -252,9 +252,10 @@ func main() {
 		for {
 			client, err = login()
 			if err == nil {
+				modules.Log.Info("qBitTorrent is now available")
 				break
 			}
-			modules.Log.Warnf("1BitTorrent login failed, retrying in 10s. error: %s", err.Error())
+			modules.Log.Warnf("qBitTorrent login failed, retrying in 10s. error: %s", err.Error())
 			time.Sleep(10 * time.Second)
 		}
 	}
